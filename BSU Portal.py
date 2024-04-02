@@ -55,8 +55,32 @@ def sub_portal():
         print ("7. Scholarships")
         print ("8. Online Registration")
         print ("9. Certificate of Registration")
+        choice = int(input("Enter choice: "))
+        try:
+            if choice == 1:
+                view_subjects()
+            elif choice == 2:
+                view_ID()
+            elif choice == 3:
+                schedules()
+            elif choice == 4:
+                liabilities()
+            elif choice == 5:
+                membership_payments()
+            elif choice == 6:
+                curriculum()
+            elif choice == 7:
+                scholarships()
+            elif choice == 8:
+                online_registration()
+            elif choice == 9:
+                certificate_of_registration()
+            else:
+                print ("Invalid Input")
+        except ValueError as e:
+            print (f"Error occured: {e}")
 
-def subjects():
+def view_subjects():
     pass
 
 def curriculum():
@@ -80,7 +104,7 @@ def certificate_of_registration():
 def scholarships():
     pass
 
-def course_registration():
+def online_registration():
     pass
 
 main()
