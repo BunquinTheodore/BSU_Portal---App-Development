@@ -1,6 +1,11 @@
 #Batangas State University Portal 
 
 student_account = {}
+memberships = {
+    "SSC Membership" : 45,
+    "Department Membership" : 60,
+    "Organization Membership" : 80
+}
 coe_curriculum = { 
     "First Year": [
         "Introduction to Engineering",
@@ -225,7 +230,7 @@ def sign_up(name, sr_code, password):
     if sr_code in student_account:
         print("SR Code already in use!")
     else:
-        student_account[sr_code] = {"password": password, "name" : name}
+        student_account[sr_code] = {"password": password, "name" : name, "balance": 0}
         print ('\nAccount Registered Successfully!')
 
 def sign_in(name,sr_code, password):
@@ -314,6 +319,7 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
         print ("7. Scholarships")
         print ("8. Online Registration")
         print ("9. Certificate of Registration")
+        print ("10. Add Balance")
         try:
             choice = int(input("Enter choice: "))
             if choice == 1:
@@ -325,7 +331,7 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
             elif choice == 4:
                 liabilities()
             elif choice == 5:
-                membership_payments()
+                membership_payments(sr_code)
             elif choice == 6:
                 curriculum(department_curriculum)
             elif choice == 7:
@@ -334,33 +340,93 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
                 online_registration()
             elif choice == 9:
                 certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level)
+            elif choice == 10:
+                gcash(sr_code)
             else:
                 print ("Invalid Input")
         except ValueError as e:
             print (f"Error occured: {e}")
 
 def view_subjects(curriculum_of_student_year_level):
+    print ("________________________________________________________________________________________")
     print ("\nYour Subjects: ")
     for subjects in curriculum_of_student_year_level:
         print (f"- {subjects}")
+    print ("________________________________________________________________________________________")
 
 def curriculum(department_curriculum):
+    print ("________________________________________________________________________________________")
     print ("\nYour Entire Curriculum: ")
     for year_level, subjects in department_curriculum.items():
         print (f"\n{year_level}:")
         for subject in subjects: 
             print (f"- {subject}")
+    print ("________________________________________________________________________________________")
 
 def liabilities():
     pass
 
 def schedules():
+    print ("________________________________________________________________________________________")
+    print ("Schedules: ")
     print ("Schedules not availble yet...")
+    print ("________________________________________________________________________________________")
+    
+def gcash(sr_code):
+    print ("________________________________________________________________________________________")
+    print ("\nCash In to Add Balance")
+    cash_in = int(input("Enter amount you want to cash in: "))
+    student_account[sr_code]["balance"] += cash_in
+    print ("Succesfully Added Balance!")
+    print ("________________________________________________________________________________________")
+    return
 
-def membership_payments():
-    pass
+def membership_payments(sr_code):
+    print ("________________________________________________________________________________________")
+    print ("Choose which Membership to Pay")
+    print ("1. SSC Membership: Php 45")
+    print ("2. Department Membership: Php 60")
+    print ("3. Organization Membership: Php 80")
+    while True:
+        try:
+            choice = int(input("Enter choice: "))
+            if choice == 1: 
+                if student_account[sr_code]["balance"] >= memberships["SSC Membership"]:
+                    student_account[sr_code]["balance"] -= memberships["SSC Membership"]
+                    memberships["SSC Membership"] -= 45
+                    print ("Successfully paid SSC Membership!")
+                elif memberships["SSC Membership"] == 0:
+                    print ("You have already paid this membership!")
+                    return
+                else:
+                    print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+            elif choice == 2:
+                if student_account[sr_code]["balance"] >= memberships['Department Membership']:
+                    student_account[sr_code]["balance"] -= memberships['Department Membership']
+                    memberships["Department Membership"] -= 60
+                    print ("Successfully paid Department Membership!")
+                elif memberships["SSC Membership"] == 0:
+                    print ("You have already paid Department Membership!")
+                else:
+                    print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+            elif choice == 3: 
+                if student_account[sr_code]["balance"] >= memberships["Organization Membership"]:
+                    student_account[sr_code]["balance"] -= memberships["Organization Membership" ]
+                    memberships["Organization Membership"] -= 80
+                elif memberships["Organization Membership"] == 0: 
+                    print ("Successfully paid Organization Membership!")
+                else:
+                    print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+            else:
+                print ("Invalid Input!")
+        except ValueError as e:
+            print (f"Error Occured: {e}")
+            break
+        print ("________________________________________________________________________________________")
+    
 
 def view_ID(name, sr_code, department, student_year_level):
+    print ("________________________________________________________________________________________")
     print ('''
            ___________________
            |                 |
@@ -370,6 +436,7 @@ def view_ID(name, sr_code, department, student_year_level):
            |                 |
            |_________________|''')
     print (f"{name}\n{sr_code}\n{department}\n{student_year_level}")
+    print ("________________________________________________________________________________________")
 
 def certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level):
     print ("______________________________")
@@ -384,8 +451,10 @@ def certificate_of_registration(name, sr_code, department, curriculum_of_student
     print ("______________________________")
 
 def scholarships():
+    print ("________________________________________________________________________________________")
     print ("\nScholarships: ")
     print ("Higher Education Support Program: \nTuition Fee Discount: 100% \nMisc Fee Discount: 100%")
+    print ("________________________________________________________________________________________")
 
 def online_registration():
     pass
