@@ -361,18 +361,24 @@ def membership_payments():
     pass
 
 def view_ID(name, sr_code, department, student_year_level):
-    print ('''
+    print (f'''
            ___________________
            |                 |
            |                 |
            |     Photo       |
            |   Unavailable   |
+           |     {name}      |
+           |     {sr_code}   |
+           |    {department} |
+           | {student_year_level}|
            |                 |
            |_________________|''')
-    print (f"{name}\n{sr_code}\n{department}\n{student_year_level}")
+    
 
-def certificate_of_registration():
-    pass
+def certificate_of_registration(name, sr_code, department, student_year_level):
+    print ("\nCertificate of Registration")
+    print ("\nRepublic of the Philippines\nBatangas State University\nThe National Engineering University\n")
+    print 
 
 def scholarships():
     print ("\nScholarships: ")
