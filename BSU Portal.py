@@ -1,4 +1,4 @@
-#Batangas State University Portal - Alangilan
+#Batangas State University Portal 
 
 student_account = {}
 coe_curriculum = { 
@@ -333,7 +333,7 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
             elif choice == 8:
                 online_registration()
             elif choice == 9:
-                certificate_of_registration()
+                certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level)
             else:
                 print ("Invalid Input")
         except ValueError as e:
@@ -355,31 +355,33 @@ def liabilities():
     pass
 
 def schedules():
-    pass
+    print ("Schedules not availble yet...")
 
 def membership_payments():
     pass
 
 def view_ID(name, sr_code, department, student_year_level):
-    print (f'''
-           ______________________________
-           |                            |
-           |                            |
-           |           Photo            |
-           |        Unavailable         |
-           |                            |
-           |          {name}            |
-           |         {sr_code}          |
-           |       {department}         |
-           |    {student_year_level}    |
-           |                            |
-           |____________________________|''')
-    
+    print ('''
+           ___________________
+           |                 |
+           |                 |
+           |     Photo       |
+           |   Unavailable   |
+           |                 |
+           |_________________|''')
+    print (f"{name}\n{sr_code}\n{department}\n{student_year_level}")
 
-def certificate_of_registration(name, sr_code, department, student_year_level):
+def certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level):
+    print ("______________________________")
     print ("\nCertificate of Registration")
-    print ("\nRepublic of the Philippines\nBatangas State University\nThe National Engineering University\n")
-    print 
+    print (f"SR Code: {sr_code}")
+    print (f"Name: {name}")
+    print (f"Year Level: {student_year_level}")
+    print (f"Department: {department}")
+    view_subjects(curriculum_of_student_year_level)
+    scholarships()
+    print ("ENROLLED")
+    print ("______________________________")
 
 def scholarships():
     print ("\nScholarships: ")
