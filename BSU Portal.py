@@ -205,13 +205,14 @@ def main():
         try:
             choice = int(input("Enter choice of action: "))
             if choice == 1:
+                name = str(input("Enter Name: "))
                 sr_code = input("Enter SR Code: ")
                 password = input ("Enter password: ")
-                sign_up(sr_code,password)
+                sign_up(name, sr_code,password)
             elif choice == 2:
                 sr_code = input ("Enter SR Code: ")
                 password = input ("Enter password: ")
-                sign_in(sr_code, password)
+                sign_in(name, sr_code, password)
             elif choice == 3:
                 print ("Exiting Portal...\n")
                 break
@@ -220,83 +221,87 @@ def main():
         except ValueError as e:
             print (f"Error occured: {e}")
 
-def sign_up(sr_code, password):
+def sign_up(name, sr_code, password):
     if sr_code in student_account:
         print("SR Code already in use!")
     else:
-        student_account[sr_code] = {"password": password}
+        student_account[sr_code] = {"password": password, "name" : name}
         print ('\nAccount Registered Successfully!')
 
-def sign_in(sr_code, password):
+def sign_in(name,sr_code, password):
     if sr_code in student_account:
         if password == student_account[sr_code]["password"]:
-            school_department()
+            school_department(name)
         else: 
             print ("wrong password!\n")
     else:
         print ("Student Account not Found!")
         return
             
-def year_level(department):
+def year_level(name, department, department_curriculum):
     while True:
-        print ("\nWelcome, Choose your Year Level")
+        print (f"\nWelcome {name}, Choose your Year Level")
         print ('1. 1st year')
         print ('2. 2nd Year')
         print ('3. 3rd Year')
         print ('4. 4th Year')
         choice = int(input('Enter Year Level: '))
         if choice == 1:
-            student_year_level = department['First Year']
-            sub_portal(student_year_level, department)
+            student_year_level = department_curriculum['First Year']
+            sub_portal(name, student_year_level, department)
             break
         elif choice == 2:
-            student_year_level = department['Second Year']
-            sub_portal(student_year_level, department)
+            student_year_level = department_curriculum['Second Year']
+            sub_portal(name, student_year_level, department)
             break
         elif choice == 3:
-            student_year_level = department['Third Year']
-            sub_portal(student_year_level, department)
+            student_year_level = department_curriculum['Third Year']
+            sub_portal(name, student_year_level, department)
             break
         elif choice == 4:
-            student_year_level = department['Fourth Year']
-            sub_portal(student_year_level, department)
+            student_year_level = department_curriculum['Fourth Year']
+            sub_portal(name, student_year_level, department)
             break
         else: 
             print ("Invalid Input!")
             break
         
 
-def school_department():
+def school_department(name):
     while True:
-        print ("\nWelcome, Choose your Designated Department!")
+        print (f"\nWelcome {name}, Choose your Designated Department!")
         print ("1. College of Informatics and Computing Sciences")
         print ("2. College of Engineering")
         print ("3. College of Industrial Technology")
         print ("4. College of Architecture, Fine Arts and Design")
         choice = int(input("Enter choice: "))
         if choice == 1:
-            department = cics_curriculum
-            year_level(department)
+            department_curriculum = cics_curriculum
+            department = "College of Informatics and Computing Sciences"
+            year_level(name, department_curriculum, department)
             break
         elif choice == 2:
-            department = coe_curriculum
-            year_level(department)
+            department_curriculum = coe_curriculum
+            department = "College of Engineering"
+            year_level(department_curriculum, department)
             break
         elif choice == 3:
-            department = cit_curriculum
-            year_level(department)
+            department_curriculum = cit_curriculum
+            department = "College of Industial Technology"
+            year_level(department_curriculum, department)
             break
         elif choice == 4:
-            department = cafad_curriculum
-            year_level(department)
+            department_curriculum = cafad_curriculum
+            department = "College of Architecture, Fine Arts and Design"
+            year_level(department_curriculum, department)
             break
         else:
             print ("Invalid Input!")
             break
             
-def sub_portal(student_year_level, department):
+def sub_portal(name, sr_code, student_year_level, department):
     while True:
-        print ('\nWelcome to the Portal!')
+        print (f'\nWelcome {name} to the Portal!')
         print ("1. View Subjects")
         print ("2. View ID")
         print ("3. Schedules")
@@ -311,7 +316,7 @@ def sub_portal(student_year_level, department):
             if choice == 1:
                 view_subjects(student_year_level)
             elif choice == 2:
-                view_ID()
+                view_ID(name, sr_code, department, student_year_level)
             elif choice == 3:
                 schedules()
             elif choice == 4:
@@ -334,12 +339,14 @@ def sub_portal(student_year_level, department):
 def view_subjects(student_year_level):
     print ("\nYour Subjects: ")
     for subjects in student_year_level:
-        print (f"-{subjects}")
+        print (f"- {subjects}")
 
 def curriculum(department):
     print ("\nYour Entire Curriculum: ")
-    for curriculum in department:
-        print (f"{curriculum["First Year", "Second Year", "Third Year", "Fourth Year"]}")
+    for year_level, subjects in department.items():
+        print (f"\n{year_level}:")
+        for subject in subjects: 
+            print (f"- {subject}")
 
 def liabilities():
     pass
@@ -350,14 +357,23 @@ def schedules():
 def membership_payments():
     pass
 
-def view_ID():
-    pass
+def view_ID(name, sr_code, department, student_year_level):
+    print ('''
+           ___________________
+           |                 |
+           |                 |
+           |     Photo       |
+           |   Unavailable   |
+           |                 |
+           |_________________|''')
+    print (f"{name}\n{sr_code}\n{department},{student_year_level}")
 
 def certificate_of_registration():
     pass
 
 def scholarships():
-    pass
+    print ("\nScholarships: ")
+    print ("Higher Education Support Program: \nTuition Fee Discount: 100% \nMisc Fee Discount: 100%")
 
 def online_registration():
     pass
