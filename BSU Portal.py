@@ -1,4 +1,4 @@
-#Batangas State University Portal 
+#Batangas State University Portal - Alangilan
 
 student_account = {}
 coe_curriculum = { 
@@ -362,17 +362,18 @@ def membership_payments():
 
 def view_ID(name, sr_code, department, student_year_level):
     print (f'''
-           ___________________
-           |                 |
-           |                 |
-           |     Photo       |
-           |   Unavailable   |
-           |     {name}      |
-           |     {sr_code}   |
-           |    {department} |
-           | {student_year_level}|
-           |                 |
-           |_________________|''')
+           ______________________________
+           |                            |
+           |                            |
+           |           Photo            |
+           |        Unavailable         |
+           |                            |
+           |          {name}            |
+           |         {sr_code}          |
+           |       {department}         |
+           |    {student_year_level}    |
+           |                            |
+           |____________________________|''')
     
 
 def certificate_of_registration(name, sr_code, department, student_year_level):
