@@ -211,11 +211,11 @@ def main():
             choice = int(input("Enter choice of action: "))
             if choice == 1:
                 name = str(input("Enter Name: "))
-                sr_code = int(input("Enter SR Code: "))
+                sr_code = (input("Enter SR Code: "))
                 password = input("Enter password: ")
                 sign_up(name, sr_code, password)
             elif choice == 2:
-                sr_code = int(input("Enter SR Code: "))
+                sr_code = (input("Enter SR Code: "))
                 password = input ("Enter password: ")
                 sign_in(name, sr_code, password)
             elif choice == 3:
@@ -369,7 +369,7 @@ def liabilities():
 def schedules():
     print ("________________________________________________________________________________________")
     print ("Schedules: ")
-    print ("Schedules not availble yet...")
+    print ("Schedules not available yet...")
     print ("________________________________________________________________________________________")
     
 def gcash(sr_code):
@@ -391,32 +391,32 @@ def membership_payments(sr_code):
         try:
             choice = int(input("Enter choice: "))
             if choice == 1: 
-                if student_account[sr_code]["balance"] >= memberships["SSC Membership"]:
+                if memberships["SSC Membership"] == 0:
+                    print ("You have already paid this membership!")
+                elif student_account[sr_code]["balance"] >= memberships["SSC Membership"]:
                     student_account[sr_code]["balance"] -= memberships["SSC Membership"]
                     memberships["SSC Membership"] -= 45
                     print ("Successfully paid SSC Membership!")
-                elif memberships["SSC Membership"] == 0:
-                    print ("You have already paid this membership!")
                     return
                 else:
                     print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
             elif choice == 2:
-                if student_account[sr_code]["balance"] >= memberships['Department Membership']:
+                if memberships["Department Membership"] == 0:
+                    print ("You have already paid this membership!")
+                elif student_account[sr_code]["balance"] >= memberships['Department Membership']:
                     student_account[sr_code]["balance"] -= memberships['Department Membership']
                     memberships["Department Membership"] -= 60
                     print ("Successfully paid Department Membership!")
-                elif memberships["SSC Membership"] == 0:
-                    print ("You have already paid Department Membership!")
                 else:
-                    print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
-            elif choice == 3: 
-                if student_account[sr_code]["balance"] >= memberships["Organization Membership"]:
+                    print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+            elif choice == 3:
+                if memberships["Organization Membership"] == 0:
+                    print ("You have already paid this membership!")
+                elif student_account[sr_code]["balance"] >= memberships["Organization Membership"]:
                     student_account[sr_code]["balance"] -= memberships["Organization Membership" ]
                     memberships["Organization Membership"] -= 80
-                elif memberships["Organization Membership"] == 0: 
-                    print ("Successfully paid Organization Membership!")
                 else:
-                    print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+                    print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
             else:
                 print ("Invalid Input!")
         except ValueError as e:
