@@ -309,7 +309,8 @@ def school_department(name, sr_code):
             
 def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department):
     while True:
-        print (f'\nWelcome {name} to the Portal!')
+        print ("\n________________________________________________________________________________________")
+        print (f'Welcome {name} to the Portal!')
         print ("1. View Subjects")
         print ("2. View ID")
         print ("3. Schedules")
@@ -352,7 +353,6 @@ def view_subjects(curriculum_of_student_year_level):
     print ("\nYour Subjects: ")
     for subjects in curriculum_of_student_year_level:
         print (f"- {subjects}")
-    print ("________________________________________________________________________________________")
 
 def curriculum(department_curriculum):
     print ("________________________________________________________________________________________")
@@ -361,27 +361,49 @@ def curriculum(department_curriculum):
         print (f"\n{year_level}:")
         for subject in subjects: 
             print (f"- {subject}")
-    print ("________________________________________________________________________________________")
+
 
 def liabilities():
-    pass
-
+    print ("________________________________________________________________________________________")
+    print ("LIABILITIES")
+    while True: 
+        no_liabilities = 3
+        liabilities = []
+        if memberships ["SSC Membership"] == 0:
+            no_liabilities -= 1
+        elif memberships["SSC Membership"] != 0:
+            liabilities.append("SSC Memberships")
+            
+        if memberships ["Department Membership"] == 0:
+            no_liabilities -= 1
+        elif memberships["Department Membership"] != 0:
+            liabilities.append("Department Memberships")
+            
+        if memberships ["Organization Membership"] == 0:
+            no_liabilities -= 1
+        elif memberships["Organization Membership"] != 0:
+            liabilities.append("Organization Memberships")
+        print (f"You have {no_liabilities} liability(s)")
+        for liability in liabilities:
+            print (f"You liabiltiy(s): {liability}\n")
+            break
+        return
+        
 def schedules():
     print ("________________________________________________________________________________________")
     print ("Schedules: ")
     print ("Schedules not available yet...")
-    print ("________________________________________________________________________________________")
+
     
 def gcash(sr_code):
     print ("________________________________________________________________________________________")
-    print ("\nCash In to Add Balance")
+    print ("Cash In to Add Balance")
     cash_in = int(input("Enter amount you want to cash in: "))
     student_account[sr_code]["balance"] += cash_in
     print ("Succesfully Added Balance!")
-    print ("________________________________________________________________________________________")
     return
 
-def membership_payments(sr_code):
+def membership_payments(sr_code, ):
     print ("________________________________________________________________________________________")
     print ("Choose which Membership to Pay")
     print ("1. SSC Membership: Php 45")
@@ -393,6 +415,7 @@ def membership_payments(sr_code):
             if choice == 1: 
                 if memberships["SSC Membership"] == 0:
                     print ("You have already paid this membership!")
+                    return
                 elif student_account[sr_code]["balance"] >= memberships["SSC Membership"]:
                     student_account[sr_code]["balance"] -= memberships["SSC Membership"]
                     memberships["SSC Membership"] -= 45
@@ -400,29 +423,37 @@ def membership_payments(sr_code):
                     return
                 else:
                     print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+                    return
             elif choice == 2:
                 if memberships["Department Membership"] == 0:
                     print ("You have already paid this membership!")
+                    return
                 elif student_account[sr_code]["balance"] >= memberships['Department Membership']:
                     student_account[sr_code]["balance"] -= memberships['Department Membership']
                     memberships["Department Membership"] -= 60
                     print ("Successfully paid Department Membership!")
+                    return
                 else:
                     print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+                    return
             elif choice == 3:
                 if memberships["Organization Membership"] == 0:
                     print ("You have already paid this membership!")
+                    return
                 elif student_account[sr_code]["balance"] >= memberships["Organization Membership"]:
                     student_account[sr_code]["balance"] -= memberships["Organization Membership" ]
                     memberships["Organization Membership"] -= 80
+                    print ("Successfully paid Organization Membership!")
+                    return
                 else:
                     print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+                    return
             else:
                 print ("Invalid Input!")
         except ValueError as e:
             print (f"Error Occured: {e}")
             break
-        print ("________________________________________________________________________________________")
+
     
 
 def view_ID(name, sr_code, department, student_year_level):
@@ -436,11 +467,11 @@ def view_ID(name, sr_code, department, student_year_level):
            |                 |
            |_________________|''')
     print (f"{name}\n{sr_code}\n{department}\n{student_year_level}")
-    print ("________________________________________________________________________________________")
+
 
 def certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level):
     print ("______________________________")
-    print ("\nCertificate of Registration")
+    print ("\nCERTIFICATE OF REGISTRATION")
     print (f"SR Code: {sr_code}")
     print (f"Name: {name}")
     print (f"Year Level: {student_year_level}")
@@ -448,13 +479,11 @@ def certificate_of_registration(name, sr_code, department, curriculum_of_student
     view_subjects(curriculum_of_student_year_level)
     scholarships()
     print ("ENROLLED")
-    print ("______________________________")
 
 def scholarships():
     print ("________________________________________________________________________________________")
     print ("\nScholarships: ")
     print ("Higher Education Support Program: \nTuition Fee Discount: 100% \nMisc Fee Discount: 100%")
-    print ("________________________________________________________________________________________")
 
 def online_registration():
     pass
