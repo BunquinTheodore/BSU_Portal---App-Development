@@ -311,38 +311,41 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
     while True:
         print ("\n________________________________________________________________________________________")
         print (f'Welcome {name} to the Portal!')
-        print ("1. View Subjects")
-        print ("2. View ID")
+        print ("1. View ID")
+        print ("2. View Subjects")
         print ("3. Schedules")
-        print ("4. Liabilities")
-        print ("5. Membership Payments")
-        print ("6. Curriculum")
-        print ("7. Scholarships")
-        print ("8. Online Registration")
-        print ("9. Certificate of Registration")
-        print ("10. Add Balance")
+        print ("4. Curriculum")
+        print ("5. Liabilities")
+        print ("6. Scholarships")
+        print ("7. Certificate of Registration")
+        print ("8. Membership Payments")
+        print ("9. Add Balance")
+        print ("10. Online Registration")
+        print ("11. Exit")
         try:
             choice = int(input("Enter choice: "))
             if choice == 1:
-                view_subjects(curriculum_of_student_year_level)
-            elif choice == 2:
                 view_ID(name, sr_code, department, student_year_level)
+            elif choice == 2:
+                view_subjects(curriculum_of_student_year_level)
             elif choice == 3:
                 schedules()
             elif choice == 4:
-                liabilities()
-            elif choice == 5:
-                membership_payments(sr_code)
-            elif choice == 6:
                 curriculum(department_curriculum)
-            elif choice == 7:
+            elif choice == 5:
+                liabilities()
+            elif choice == 6:
                 scholarships()
-            elif choice == 8:
-                online_registration()
-            elif choice == 9:
+            elif choice == 7:
                 certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level)
+            elif choice == 8:
+                membership_payments(sr_code)
+            elif choice == 9:
+                add_balance(sr_code)
             elif choice == 10:
-                gcash(sr_code)
+                online_registration()
+            elif choice == 11:
+                main()
             else:
                 print ("Invalid Input")
         except ValueError as e:
@@ -373,20 +376,18 @@ def liabilities():
             no_liabilities -= 1
         elif memberships["SSC Membership"] != 0:
             liabilities.append("SSC Memberships")
-            
         if memberships ["Department Membership"] == 0:
             no_liabilities -= 1
         elif memberships["Department Membership"] != 0:
             liabilities.append("Department Memberships")
-            
         if memberships ["Organization Membership"] == 0:
             no_liabilities -= 1
         elif memberships["Organization Membership"] != 0:
             liabilities.append("Organization Memberships")
         print (f"You have {no_liabilities} liability(s)")
+        print ("You liabiltiy(s):")
         for liability in liabilities:
-            print (f"You liabiltiy(s): {liability}\n")
-            break
+            print (f"- {liability}")
         return
         
 def schedules():
@@ -395,7 +396,7 @@ def schedules():
     print ("Schedules not available yet...")
 
     
-def gcash(sr_code):
+def add_balance(sr_code):
     print ("________________________________________________________________________________________")
     print ("Cash In to Add Balance")
     cash_in = int(input("Enter amount you want to cash in: "))
@@ -422,7 +423,7 @@ def membership_payments(sr_code, ):
                     print ("Successfully paid SSC Membership!")
                     return
                 else:
-                    print (f"Insuffiecent Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
+                    print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
                     return
             elif choice == 2:
                 if memberships["Department Membership"] == 0:
