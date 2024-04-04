@@ -210,12 +210,13 @@ def main():
         try:
             choice = int(input("Enter choice of action: "))
             if choice == 1:
-                name = str(input("Enter Name: "))
                 sr_code = (input("Enter SR Code: "))
+                name = str(input("Enter Name: "))
                 password = input("Enter password: ")
                 sign_up(name, sr_code, password)
             elif choice == 2:
                 sr_code = (input("Enter SR Code: "))
+                name = str(input("Enter Name: "))
                 password = input ("Enter password: ")
                 sign_in(name, sr_code, password)
             elif choice == 3:
@@ -225,6 +226,7 @@ def main():
                 print ("Invalid Input!")
         except ValueError as e:
             print (f"Error occured: {e}")
+            return
 
 def sign_up(name, sr_code, password):
     if sr_code in student_account:
@@ -309,19 +311,21 @@ def school_department(name, sr_code):
             
 def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department):
     while True:
-        print ("\n________________________________________________________________________________________")
+        print ("________________________________________________________________________________________")
         print (f'Welcome {name} to the Portal!')
         print ("1. View ID")
         print ("2. View Subjects")
-        print ("3. Schedules")
-        print ("4. Curriculum")
-        print ("5. Liabilities")
-        print ("6. Scholarships")
-        print ("7. Certificate of Registration")
-        print ("8. Membership Payments")
-        print ("9. Add Balance")
-        print ("10. Online Registration")
-        print ("11. Exit")
+        print ("3. View Grades")
+        print ("4. Schedules")
+        print ("5. Curriculum")
+        print ("6. Liabilities")
+        print ("7. Scholarships")
+        print ("8. Certificate of Registration")
+        print ("9. Membership Payments")
+        print ("10. Add Balance")
+        print ("11. Online Registration")
+        print ("12.Change Password")
+        print ("13. Exit")
         try:
             choice = int(input("Enter choice: "))
             if choice == 1:
@@ -343,7 +347,7 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
             elif choice == 9:
                 add_balance(sr_code)
             elif choice == 10:
-                online_registration()
+                online_registration(curriculum_of_student_year_level)
             elif choice == 11:
                 main()
             else:
@@ -486,7 +490,46 @@ def scholarships():
     print ("\nScholarships: ")
     print ("Higher Education Support Program: \nTuition Fee Discount: 100% \nMisc Fee Discount: 100%")
 
-def online_registration():
-    pass
+def online_registration(curriculum_of_student_year_level):
+    print ("________________________________________________________________________________________")
+    print ("ONLINE REGISTRATION")
+    if memberships ["Department Membership"] != 0 and memberships["Organization Membership"] != 0 and memberships["SSC Membership"] != 0:
+        print ("Liabilities found, unable for online registration!")
+    else: 
+        view_subjects(curriculum_of_student_year_level)
+        print ("\n1. Enroll to All Subjects")
+        print ("2. Back to Menu")
+        while True:
+            try: 
+                choice = int(input("Enter choice: "))
+                if choice == 1:
+                    ("______________________________")
+                    print ("Successfully Enrolled!")
+                    for subjects in curriculum_of_student_year_level:
+                        print (f"Enrolled: {subjects}")
+                elif choice == 2:
+                    sub_portal()
+            except ValueError as e:
+                print (f"Error occured: {e}")
+            break
+        
+def view_grades(curriculum_of_student_year_level):
+    print ("________________________________________________________________________________________")
+    print ("GRADES: ")
+    for subjects in curriculum_of_student_year_level:
+        print (f"{subjects} : Grades Unavailable")
 
+def change_password(sr_code, password): 
+    print ("________________________________________________________________________________________")
+    sr_code = input("Enter SR Code: ")
+    password = input ("Enter original password: ")
+    new_password = input ("Enter new password: ")
+    if sr_code in student_account and password == student_account[sr_code]["password"]:
+        student_account[sr_code]["password"] = new_password
+        print ("Successfully Changed Password!")
+    elif sr_code in student_account and password != student_account[sr_code]["password"]:
+        print ("Wrong Password")
+    else:
+        print ("Student Account not Found...")
+                
 main()
