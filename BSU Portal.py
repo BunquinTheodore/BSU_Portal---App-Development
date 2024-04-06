@@ -1,12 +1,21 @@
 #Batangas State University Portal 
+#Good day sir, this is my simplified BSU portal I made using python
 
+#I placed an empty dictionary to store the student's SR Code, name and password
 student_account = {}
+
+#This is my data base for membership payments and basis for the student's liability
 memberships = {
-    "SSC Membership" : 45,
-    "Department Membership" : 60,
-    "Organization Membership" : 80
+    "SSC Membership" : {"cost" : 45},
+    "Department Membership" : {"cost" : 60},
+    "Organization Membership" : {"cost" : 80}
 }
-coe_curriculum = { 
+
+#I also placed for 4 different curriculum for each department
+#I generalized the subjects for all courses within the departments due to the complexity of code if I asked the student's program
+
+#This is the data base for the Department of College of Engineering 
+engineering_urriculum = { 
     "First Year": [
         "Introduction to Engineering",
         "Mathematics for Engineers",
@@ -51,7 +60,9 @@ coe_curriculum = {
         "Engineering Law and Regulations"
     ]
 }
-cics_curriculum = {
+
+#This one is for the Department of College  of Informatics and Computing Sciences
+informatics_computing_sciences_curriculum = {
     "First Year": [
         "Introduction to Computer Science",
         "Programming Fundamentals",
@@ -109,7 +120,9 @@ cics_curriculum = {
         "Career Development and Industry Trends"
     ]
 }
-cafad_curriculum = {
+
+#This is the database for the department of College of Architecture, Fine Arts and Design
+architecture_fine_arts_design_curriculum = {
     "First Year": [
         "Introduction to Architecture",
         "Architectural Design Basics",
@@ -155,7 +168,9 @@ cafad_curriculum = {
         "Thesis Project"
     ]
 }
-cit_curriculum = {
+
+#This one is for the Department of Industrial Technology
+industrial_technology_curriculum = {
     "First Year": [
         "Introduction to Industrial Technology",
         "Basic Electronics",
@@ -201,24 +216,25 @@ cit_curriculum = {
         "Career Development Workshop"
     ]}
 
+#This one is my main function containing register, log-in and exit options
 def main():
     while True: 
         print ("\nWelcome to Batangas State University Portal!")
-        print ("1. Sign-Up  Student Account")
-        print ("2. Sign-In Student Account")
+        print ("1. Register Student Account")
+        print ("2. Log-In Student Account")
         print ("3. Exit Portal")
         try:
-            choice = int(input("Enter choice of action: "))
+            choice = int(input("Enter choice of action(1-3): "))
             if choice == 1:
                 sr_code = (input("Enter SR Code: "))
-                name = str(input("Enter Name: "))
+                name = (input("Enter Name: "))
                 password = input("Enter password: ")
-                sign_up(name, sr_code, password)
+                register_account(name, sr_code, password)
             elif choice == 2:
                 sr_code = (input("Enter SR Code: "))
-                name = str(input("Enter Name: "))
+                name =(input("Enter Name: "))
                 password = input ("Enter password: ")
-                sign_in(name, sr_code, password)
+                log_in_account(name, sr_code, password)
             elif choice == 3:
                 print ("Exiting Portal...\n")
                 break
@@ -226,58 +242,39 @@ def main():
                 print ("Invalid Input!")
         except ValueError as e:
             print (f"Error occured: {e}")
-            return
+            main()
 
-def sign_up(name, sr_code, password):
+#This is my function for registering their student account
+#It checks if SR Code is in the student account dictionary, if not, assigns the input into the dictionary
+def register_account(name, sr_code, password):
     if sr_code in student_account:
-        print("SR Code already in use!")
+        print ("\nSR Code already in use!")
     else:
         student_account[sr_code] = {"password": password, "name" : name, "balance": 0}
         print ('\nAccount Registered Successfully!')
 
-def sign_in(name,sr_code, password):
+#This is my log-in function
+#It checks if the SR Code is in the student account dictionary where:
+#It requires the correct name and password to access the student account
+#After successfully logging in, it goes to the school department function
+def log_in_account(name, sr_code, password):
     if sr_code in student_account:
-        if password == student_account[sr_code]["password"]:
-            school_department(name, sr_code)
-        else: 
-            print ("wrong password!\n")
-    else:
-        print ("Student Account not Found!")
-        return
-            
-def year_level(name, sr_code, department_curriculum, department):
-    while True:
-        print (f"\nWelcome {name}, Choose your Year Level")
-        print ('1. 1st year')
-        print ('2. 2nd Year')
-        print ('3. 3rd Year')
-        print ('4. 4th Year')
-        try: 
-            choice = int(input('Enter Year Level: '))
-            if choice == 1:
-                student_year_level = "First Year Student"
-                curriculum_of_student_year_level = department_curriculum['First Year']
-                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department)
-            elif choice == 2:
-                student_year_level = "Second Year Student"
-                curriculum_of_student_year_level = department_curriculum['Second Year']
-                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department)
-            elif choice == 3:
-                student_year_level = "Third Year Student"
-                curriculum_of_student_year_level = department_curriculum['Third Year']
-                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level,department_curriculum, department)
-            elif choice == 4:
-                student_year_level = "Fourth Year Student"
-                curriculum_of_student_year_level = department_curriculum['Fourth Year']
-                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level,department_curriculum, department)
+        if name == student_account[sr_code]["name"]:
+            if password == student_account[sr_code]["password"]:
+                school_department(name, sr_code, password)
             else: 
-                print ("Invalid Input!")
-                break
-        except ValueError as e: 
-            print (f"Error Occured: {e}")
-        
+                print("\nWrong Password! Try Again")
+        elif name != student_account [sr_code]["name"]:
+            print (f"\nIncorrect name: {name}!")
+            return
+    else:
+        print (f"\n'{sr_code}' Account not Found!")
+        return
 
-def school_department(name, sr_code):
+#This is my school department function
+#It lets the student pick their designated College Department
+#It also assigns their curriculum based on the department they input and then goes to the year level function
+def school_department(name, sr_code, password):
     while True:
         print (f"\nWelcome {name}, Choose your Designated Department!")
         print ("1. College of Informatics and Computing Sciences")
@@ -286,30 +283,66 @@ def school_department(name, sr_code):
         print ("4. College of Architecture, Fine Arts and Design")
         while True:
             try:
-                choice = int(input("Enter choice: "))
+                choice = int(input("Enter choice(1-4): "))
                 if choice == 1:
-                    department_curriculum = cics_curriculum
+                    department_curriculum = informatics_computing_sciences_curriculum
                     department = "College of Informatics and Computing Sciences"
-                    year_level(name, sr_code, department_curriculum, department)
+                    year_level(name, sr_code, department_curriculum, department, password)
                 elif choice == 2:
-                    department_curriculum = coe_curriculum
+                    department_curriculum = engineering_urriculum
                     department = "College of Engineering"
-                    year_level(name, sr_code, department_curriculum, department)
+                    year_level(name, sr_code, department_curriculum, department, password)
                 elif choice == 3:
-                    department_curriculum = cit_curriculum
+                    department_curriculum = industrial_technology_curriculum
                     department = "College of Industrial Technology"
-                    year_level(name, sr_code, department_curriculum, department)
+                    year_level(name, sr_code, department_curriculum, department, password)
                 elif choice == 4:
-                    department_curriculum = cafad_curriculum
+                    department_curriculum = architecture_fine_arts_design_curriculum
                     department = "College of Architecture, Fine Arts and Design"
-                    year_level(name, sr_code, department_curriculum, department)
+                    year_level(name, sr_code, department_curriculum, department, password)
                 else:
-                    print ("Invalid Input!")
-                return
+                    print ("\nInvalid Input!")
             except ValueError as e:
                 print (f"Error Occured: {e}")
-            
-def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department):
+                school_department(name, sr_code, password)
+
+#This is my year level function
+#It ask for the year level of students and assigns it to their corresponding department
+#It then goes to the the Sub Portal after
+def year_level(name, sr_code, department_curriculum, department, password):
+    while True:
+        print (f"\nWelcome {name}, Choose your Year Level")
+        print ('1. 1st year')
+        print ('2. 2nd Year')
+        print ('3. 3rd Year')
+        print ('4. 4th Year')
+        try: 
+            choice = int(input('Enter Year Level(1-4): '))
+            if choice == 1:
+                student_year_level = "First Year Student"
+                curriculum_of_student_year_level = department_curriculum['First Year']
+                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
+            elif choice == 2:
+                student_year_level = "Second Year Student"
+                curriculum_of_student_year_level = department_curriculum['Second Year']
+                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
+            elif choice == 3:
+                student_year_level = "Third Year Student"
+                curriculum_of_student_year_level = department_curriculum['Third Year']
+                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level,department_curriculum, department, password)
+            elif choice == 4:
+                student_year_level = "Fourth Year Student"
+                curriculum_of_student_year_level = department_curriculum['Fourth Year']
+                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level,department_curriculum, department,password)
+            else: 
+                print ("\nInvalid Input!")
+                year_level(name, sr_code, department_curriculum, department, password)
+        except ValueError as e: 
+            print (f"Error Occured: {e}")
+            year_level(name, sr_code, department_curriculum, department, password)
+
+#This is my Sub Portal function containing different actions similar to the BSU portal
+def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password):
     while True:
         print ("________________________________________________________________________________________")
         print (f'Welcome {name} to the Portal!')
@@ -324,43 +357,53 @@ def sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_lev
         print ("9. Membership Payments")
         print ("10. Add Balance")
         print ("11. Online Registration")
-        print ("12.Change Password")
+        print ("12. Change Password")
         print ("13. Exit")
         try:
-            choice = int(input("Enter choice: "))
+            choice = int(input("Enter choice(1-13): "))
             if choice == 1:
                 view_ID(name, sr_code, department, student_year_level)
             elif choice == 2:
                 view_subjects(curriculum_of_student_year_level)
             elif choice == 3:
-                schedules()
+                view_grades(curriculum_of_student_year_level)
             elif choice == 4:
-                curriculum(department_curriculum)
+                schedules()
             elif choice == 5:
-                liabilities()
+                curriculum(department_curriculum)
             elif choice == 6:
-                scholarships()
+                liabilities()
             elif choice == 7:
-                certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level)
+                scholarships()
             elif choice == 8:
-                membership_payments(sr_code)
+                certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level)
             elif choice == 9:
-                add_balance(sr_code)
+                membership_payments(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
             elif choice == 10:
-                online_registration(curriculum_of_student_year_level)
+                add_balance(sr_code)
             elif choice == 11:
+                online_registration(curriculum_of_student_year_level)
+            elif choice == 12:
+                sr_code = input("Enter SR Code: ")
+                password = input("Enter original password: ")
+                new_password = input("Enter new password: ")
+                change_password(sr_code, password, new_password)
+            elif choice == 13:
                 main()
             else:
-                print ("Invalid Input")
+                print ("\nInvalid Input!")
         except ValueError as e:
             print (f"Error occured: {e}")
+            sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
 
+#This is my View Subject function where it let the student view their subjects for their current school year level
 def view_subjects(curriculum_of_student_year_level):
     print ("________________________________________________________________________________________")
     print ("\nYour Subjects: ")
     for subjects in curriculum_of_student_year_level:
         print (f"- {subjects}")
 
+#Meanwhile, this is my curriculum function where it let the students view all thier subjects for the entire program
 def curriculum(department_curriculum):
     print ("________________________________________________________________________________________")
     print ("\nYour Entire Curriculum: ")
@@ -369,37 +412,7 @@ def curriculum(department_curriculum):
         for subject in subjects: 
             print (f"- {subject}")
 
-
-def liabilities():
-    print ("________________________________________________________________________________________")
-    print ("LIABILITIES")
-    while True: 
-        no_liabilities = 3
-        liabilities = []
-        if memberships ["SSC Membership"] == 0:
-            no_liabilities -= 1
-        elif memberships["SSC Membership"] != 0:
-            liabilities.append("SSC Memberships")
-        if memberships ["Department Membership"] == 0:
-            no_liabilities -= 1
-        elif memberships["Department Membership"] != 0:
-            liabilities.append("Department Memberships")
-        if memberships ["Organization Membership"] == 0:
-            no_liabilities -= 1
-        elif memberships["Organization Membership"] != 0:
-            liabilities.append("Organization Memberships")
-        print (f"You have {no_liabilities} liability(s)")
-        print ("You liabiltiy(s):")
-        for liability in liabilities:
-            print (f"- {liability}")
-        return
-        
-def schedules():
-    print ("________________________________________________________________________________________")
-    print ("Schedules: ")
-    print ("Schedules not available yet...")
-
-    
+#This is my Add Balance function, utilized for paying their membership payments
 def add_balance(sr_code):
     print ("________________________________________________________________________________________")
     print ("Cash In to Add Balance")
@@ -408,59 +421,87 @@ def add_balance(sr_code):
     print ("Succesfully Added Balance!")
     return
 
-def membership_payments(sr_code, ):
-    print ("________________________________________________________________________________________")
-    print ("Choose which Membership to Pay")
-    print ("1. SSC Membership: Php 45")
-    print ("2. Department Membership: Php 60")
-    print ("3. Organization Membership: Php 80")
+#This is my Membership Payment function, it let the student choose which membership to pay
+#This uses the membership dictionary as database for the payments
+def membership_payments(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password):
     while True:
+        print ("________________________________________________________________________________________")
+        print ("Choose which Membership to Pay")
+        print ("1. SSC Membership: Php 45")
+        print ("2. Department Membership: Php 60")
+        print ("3. Organization Membership: Php 80")
+        print ("4. Exit")
         try:
-            choice = int(input("Enter choice: "))
+            choice = int(input("Enter choice(1-3): "))
             if choice == 1: 
-                if memberships["SSC Membership"] == 0:
-                    print ("You have already paid this membership!")
-                    return
-                elif student_account[sr_code]["balance"] >= memberships["SSC Membership"]:
-                    student_account[sr_code]["balance"] -= memberships["SSC Membership"]
-                    memberships["SSC Membership"] -= 45
-                    print ("Successfully paid SSC Membership!")
-                    return
-                else:
-                    print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
-                    return
+                membership = "SSC Membership"
+                processing_payments(sr_code, membership)
             elif choice == 2:
-                if memberships["Department Membership"] == 0:
-                    print ("You have already paid this membership!")
-                    return
-                elif student_account[sr_code]["balance"] >= memberships['Department Membership']:
-                    student_account[sr_code]["balance"] -= memberships['Department Membership']
-                    memberships["Department Membership"] -= 60
-                    print ("Successfully paid Department Membership!")
-                    return
-                else:
-                    print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
-                    return
+                membership = "Department Membership"
+                processing_payments(sr_code, membership)
             elif choice == 3:
-                if memberships["Organization Membership"] == 0:
-                    print ("You have already paid this membership!")
-                    return
-                elif student_account[sr_code]["balance"] >= memberships["Organization Membership"]:
-                    student_account[sr_code]["balance"] -= memberships["Organization Membership" ]
-                    memberships["Organization Membership"] -= 80
-                    print ("Successfully paid Organization Membership!")
-                    return
-                else:
-                    print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]["balance"]} ")
-                    return
+                membership = "Organization Membership"
+                processing_payments(sr_code, membership)
+            elif choice == 4:
+                sub_portal(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
+                break
             else:
-                print ("Invalid Input!")
+                print ("\nInvalid Input!")
+                membership_payments(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
         except ValueError as e:
             print (f"Error Occured: {e}")
-            break
+            membership_payments(name, sr_code, curriculum_of_student_year_level, student_year_level, department_curriculum, department, password)
 
-    
+#This is my Processing Payment Function that gets what membership the student is paying for to make it more scalable and flexible
+#It checks if the membership is already paid, if not; if process the payment of student. If the balance is insufficient, it prints that the balance is insufficient            
+def processing_payments(sr_code, membership):
+    membership_type = memberships[membership]
+    if membership_type["cost"] == 0:
+        print (f"You have already paid {membership}!")
+    elif student_account[sr_code]["balance"] >= membership_type["cost"]:
+        student_account[sr_code]["balance"] -= membership_type["cost"]
+        membership_type['cost'] = 0
+        print (f"\nSuccessfully paid {membership}!")
+    else:
+        print (f"Insufficient Cash Balance\n Balance: {student_account[sr_code]['balance']} ")
+       
+            
+#This is my Liability function which is based on the membership_payments function and processing payment functions
+def liabilities():
+    print ("________________________________________________________________________________________")
+    print ("LIABILITIES")
+    while True: 
+        no_liabilities = 3
+        liabilities = []
+        if memberships["SSC Membership"]["cost"] == 0:
+            no_liabilities -= 1
+        elif memberships["SSC Membership"] != 0:
+            liabilities.append("SSC Memberships")
+        if memberships["Department Membership"]["cost"] == 0:
+            no_liabilities -= 1
+        elif memberships["Department Membership"] != 0:
+            liabilities.append("Department Memberships")
+        if memberships ["Organization Membership"]["cost"] == 0:
+            no_liabilities -= 1
+        elif memberships["Organization Membership"] != 0:
+            liabilities.append("Organization Memberships")
+        print (f"You have {no_liabilities} liability(s)")
+        print ("You liabiltiy(s):")
+        if no_liabilities != 0:
+            for liability in liabilities:
+                print (f"- {liability}")
+        elif no_liabilities == 0:
+            print ("- None")
+        return
 
+#This is my Schedule function where I simplified it due to the complexity of the code, it simply prints an unavailble schedule
+def schedules():
+    print ("________________________________________________________________________________________")
+    print ("Schedules: ")
+    print ("Schedules not available yet...")
+
+
+#This is my View ID function, letting the students view their name, SR code, department and student year level
 def view_ID(name, sr_code, department, student_year_level):
     print ("________________________________________________________________________________________")
     print ('''
@@ -473,7 +514,7 @@ def view_ID(name, sr_code, department, student_year_level):
            |_________________|''')
     print (f"{name}\n{sr_code}\n{department}\n{student_year_level}")
 
-
+#This is my Certificate of Registration Function that shows the student's detail and curriculum and also states that they are enroll
 def certificate_of_registration(name, sr_code, department, curriculum_of_student_year_level, student_year_level):
     print ("______________________________")
     print ("\nCERTIFICATE OF REGISTRATION")
@@ -485,15 +526,17 @@ def certificate_of_registration(name, sr_code, department, curriculum_of_student
     scholarships()
     print ("ENROLLED")
 
+#This is my Scholarship function which is similar to the portal, it simply prints the 100% Scholarship
 def scholarships():
     print ("________________________________________________________________________________________")
     print ("\nScholarships: ")
     print ("Higher Education Support Program: \nTuition Fee Discount: 100% \nMisc Fee Discount: 100%")
 
+#Meanwhile, this is the Online Registration function, it let the students enroll on their subjects if and only if their liability is zero
 def online_registration(curriculum_of_student_year_level):
     print ("________________________________________________________________________________________")
     print ("ONLINE REGISTRATION")
-    if memberships ["Department Membership"] != 0 and memberships["Organization Membership"] != 0 and memberships["SSC Membership"] != 0:
+    if memberships["Department Membership"] != 0 and memberships["Organization Membership"] != 0 and memberships["SSC Membership"] != 0:
         print ("Liabilities found, unable for online registration!")
     else: 
         view_subjects(curriculum_of_student_year_level)
@@ -501,7 +544,7 @@ def online_registration(curriculum_of_student_year_level):
         print ("2. Back to Menu")
         while True:
             try: 
-                choice = int(input("Enter choice: "))
+                choice = int(input("Enter choice(1-2): "))
                 if choice == 1:
                     ("______________________________")
                     print ("Successfully Enrolled!")
@@ -512,24 +555,26 @@ def online_registration(curriculum_of_student_year_level):
             except ValueError as e:
                 print (f"Error occured: {e}")
             break
-        
+
+#This is my View Grades function where I simply print that the grades are unavailable
 def view_grades(curriculum_of_student_year_level):
     print ("________________________________________________________________________________________")
     print ("GRADES: ")
     for subjects in curriculum_of_student_year_level:
-        print (f"{subjects} : Grades Unavailable")
+        print (f"{subjects}: Grades Unavailable")
 
-def change_password(sr_code, password): 
+#This is my Change Password function in case the student wants to change their password 
+def change_password(sr_code, password, new_password): 
     print ("________________________________________________________________________________________")
-    sr_code = input("Enter SR Code: ")
-    password = input ("Enter original password: ")
-    new_password = input ("Enter new password: ")
     if sr_code in student_account and password == student_account[sr_code]["password"]:
         student_account[sr_code]["password"] = new_password
         print ("Successfully Changed Password!")
+        main()
     elif sr_code in student_account and password != student_account[sr_code]["password"]:
         print ("Wrong Password")
     else:
         print ("Student Account not Found...")
-                
-main()
+
+#This simply calls the main function which is the backbone of this program           
+if __name__ == "__main__":
+    main()
