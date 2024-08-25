@@ -66,3 +66,13 @@ The portal includes basic error handling, such as catching invalid inputs and gu
 ## Conclusion 🏆
 
 This BSU Portal project is a simplified representation of a student portal, focusing on key functionalities and user experience. It serves as a foundational project, which can be expanded with more features and refined for real-world application.
+
+## 🤍 Acknowledgements
+
+- **Subject Instructor:** Mr. Francis Montalbo
+
+## ⌨️ Authors
+
+| Name                             | GitHub                                                | SR Code     |
+|----------------------------------|-------------------------------------------------------|-------------|
+| 👨‍🎓 Bunqnuin, Theodore Von Joshua | [BunquinTheodore](https://github.com/BunquinTheodore) | 23-03102    |
